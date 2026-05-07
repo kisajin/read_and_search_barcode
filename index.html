@@ -124,12 +124,13 @@
         <button id="startScanBtn">作業開始</button>
 
       </div>
+    <!--
     <div>
       <p>探しているITFコード: <strong id="target-display"></strong></p>
       <div id="interactive" class="viewport"></div>
       <div id="result"></div>
     </div>
-
+  -->
       <div id="scanner-container"></div>
       
       <div id="barcode">スキャン結果: なし</div>
@@ -167,7 +168,7 @@
               inputStream: {
                 name: "Live",
                 type: "LiveStream",
-                target: document.querySelector("#interactive"),
+                target: document.querySelector("#scanner-container"),
                 constraints: {
                   facingMode: "environment",
                   width: { ideal: 480 },
