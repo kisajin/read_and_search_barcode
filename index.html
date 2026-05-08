@@ -129,31 +129,61 @@
     <script>
 
       // 解像度を変数に入れる  
-      let elements = document.getElementsByName('resolution');
-      let len = elements.length;
+      // let elements = document.getElementsByName('resolution');
+      //let len = elements.length;
+      
       let checkValue = '';
-
-      document.getElementById('configBtn').addEventListener('click', function() {
-        for (let i = 0; i < len; i++){
-          if (elements.item(i).checked){
-            checkValue = elements.item(i).value;
+ 
+      // 解像度の設定を反映して再起動する関数
+      function restartWithNewResolution() {
+        // 1. 現在のラジオボタンの選択値を取得
+        let selectedRes = 'HD'; // デフォルト
+        const elements = document.getElementsByName('resolution');
+        for (let i = 0; i < elements.length; i++) {
+          if (elements[i].checked) {
+            selectedRes = elements[i].value;
+            break;
           }
         }
+      
+        // 2. 解像度設定を構築
+        let width, height;
+        if (selectedRes === "フルHD") {
+          width = { ideal: 1920 };
+          height = { ideal: 1080 };
+        } else {
+          width = { ideal: 1280 };
+          height = { ideal: 720 };
+        }
+      
+        // 3. 一度停止させる
+        Quagga.stop();
+      
+        // 4. 新しい設定で再初期化
+        // quaggaConfigの値を書き換える
+        quaggaConfig.inputStream.constraints.width = width;
+        quaggaConfig.inputStream.constraints.height = height;
+      
+        Quagga.init(quaggaConfig, function (err) {
+          if (err) {
+            console.error("再初期化エラー:", err);
+            return;
+          }
+          console.log("解像度を変更して再起動しました:", selectedRes);
+          Quagga.start();
+        });
+      }
+
+
+
+
+      
+      document.getElementById('configBtn').addEventListener('click', function() {
+        // モードなどの状態を維持したまま再起動
+        restartWithNewResolution();       
       });
 
-      // 解像度設定を反映させるための書き換え例
-    const constraints = {
-      facingMode: "environment"
-    };
-
-    if (checkValue === "フルHD") {
-        constraints.width = { min: 1280, ideal: 1920 };
-        constraints.height = { min: 720, ideal: 1080 };
-    } else {
-        constraints.width = { min: 640, ideal: 1280 };
-        constraints.height = { min: 480, ideal: 720 };
-    }
-    
+      
       
       let targetCode = ""; 
       let currentMode = ""; 
@@ -164,11 +194,10 @@
           type: "LiveStream",
           target: document.querySelector("#scanner-container"),
           constraints: {
-            constraints
-            //  facingMode: "environment",
-            //  width: { ideal: 1280 }, // デフォルトを少し高めに
-            //  height: { ideal: 720 }
-            }
+            facingMode: "environment",
+            width: { ideal: 1280 }, // デフォルトの解像度をHD画質で設定
+            height: { ideal: 720 }
+            
           },
           locator: {
             patchSize: "medium",
