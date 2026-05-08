@@ -153,17 +153,17 @@
             facingMode: "environment",
             width: { ideal: 1280 }, // デフォルトの解像度をHD画質で設定
             height: { ideal: 720 }
-            
-          },
-          locator: {
-            patchSize: "medium",
-            halfSample: true
-          },
-          decoder: {
-            readers: ["codabar_reader", "i2of5_reader"]
-          },
-          locate: true
-        };
+          }  
+        },
+        locator: {
+          patchSize: "medium",
+          halfSample: true
+        },
+        decoder: {
+          readers: ["codabar_reader", "i2of5_reader"]
+        },
+        locate: true
+      };
 
         // 共通の初期化・開始関数
         function startScanner() {
