@@ -188,13 +188,17 @@
 
           if (currentMode === "SCAN_TARGET") {
             if (format === "codabar") {
+              // 箱ラベルがITFコードの場合の処置
               // スタート文字、ストップ文字を取り除く
-              targetCode = code.substr(1, 9);
+              // targetCode = code.substr(1, 9);
+              targetCode = code;
               currentMode = ""; 
               document.getElementById('status').innerText = "登録完了: " + targetCode;
               alert("ターゲットを登録しました: " + targetCode);
+              
               //  Interleaved 2of5 コードは桁数が偶数なので、targetCodeの頭に0をつける
-              targetCode = '0' + code.substr(1, 9);
+              // targetCode = '0' + code.substr(1, 9);
+              
               // 必要に応じてここで止めるか、そのままにする
             }
           } else if (currentMode === "FIND_TARGET") {
