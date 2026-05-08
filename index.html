@@ -215,37 +215,40 @@
           }
         });
 
-        Quagga.onProcessed(function(result) {
-            // 1. オーバーレイ用のCanvas要素を取得
-            const drawingCanvas = Quagga.canvas.dom.overlay;
-            
-            // Canvasが存在しない場合は処理を抜ける
-            if (!drawingCanvas) return;
-        
-            // 2. 標準的なJSの getContext('2d') を使用してコンテキストを取得
-            const drawingCtx = drawingCanvas.getContext('2d');
-        
-            if (result) {
-                // 描画エリアのクリア
-                drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
-        
-                // 検出した枠の描画（青色）
-                if (result.boxes) {
-                    result.boxes.filter(function (box) {
-                        return box !== result.box;
-                    }).forEach(function (box) {
-                        Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: "blue", lineWidth: 2});
-                    });
-                }
-        
-                // ターゲットが見つかった時の描画（緑色）
-                if (result.codeResult && result.codeResult.code === targetCode) {
-                    Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'green', lineWidth: 4});
-                    document.getElementById('result').innerText = "ターゲット検出!: " + result.codeResult.code;
-                } else {
-                    document.getElementById('result').innerText = "スキャン中...";
-                }
-            }
-        });
+       Quagga.onProcessed(function(result) {
+        const drawingCanvas = Quagga.canvas.dom.overlay;
+        if (!drawingCanvas) return;
+      
+        const drawingCtx = drawingCanvas.getContext('2d');
+      
+        // 1. 毎フレーム、描画をクリアする
+        drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+      
+        // 2. result があり、かつ「実際にコードが読み取れた（codeResultがある）」場合のみ描画
+        if (result && result.codeResult) {
+          
+          // 青枠（バーコード全体を囲う枠）を描画
+          if (result.box) {
+            Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: "blue", lineWidth: 2 });
+          }
+      
+          // 緑の線（スキャンした中心線）を描画
+          if (result.line) {
+            Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: "green", lineWidth: 4 });
+          }
+      
+          // 3. ターゲット一致時の特別な処理
+          if (currentMode === "FIND_TARGET" && result.codeResult.code === targetCode) {
+            // ターゲット発見時は枠を赤くするなど、色を変えるのもアリです
+            Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: "red", lineWidth: 5 });
+            document.getElementById('result').innerText = "ターゲット検出!: " + result.codeResult.code;
+          } else {
+            document.getElementById('result').innerText = "スキャン中: " + result.codeResult.code;
+          }
+        } else {
+          // コードが読み取れていない時はテキストをリセット
+          document.getElementById('result').innerText = "スキャン中...";
+        }
+      });
     </script>
   </body>
