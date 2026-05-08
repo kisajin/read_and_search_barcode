@@ -95,6 +95,20 @@
 
     <h2>箱探しアプリ</h2>
      
+      
+      <div id="scanner-container"></div>
+    <!--
+      <div id="barcode">スキャン結果: なし</div>
+    -->
+    <div id="result">スキャン結果: なし</div>
+      
+    <div class = "button-container">
+
+        <button id="btnA">ボタンA：Codabarを読み取り</button>
+        <button id="btnB">ボタンB：ITFを検索開始</button>
+        <div id="status">待機中...</div>
+      </div>
+      
     <div class="container">
     
       解像度の設定
@@ -110,20 +124,7 @@
     <div class = "button-container">
       <button id="configBtn">解像度の設定</button>
     </div>
-    
-      <div id="scanner-container"></div>
-    <!--
-      <div id="barcode">スキャン結果: なし</div>
-    -->
-    <div id="result">スキャン結果: なし</div>
-      
-    <div class = "button-container">
 
-        <button id="btnA">ボタンA：Codabarを読み取り</button>
-        <button id="btnB">ボタンB：ITFを検索開始</button>
-        <div id="status">待機中...</div>
-      </div>
-    
     
 
     <script>
@@ -138,11 +139,6 @@
 
 
       
-      document.getElementById('configBtn').addEventListener('click', function() {
-        // モードなどの状態を維持したまま再起動
-        restartWithNewResolution();       
-      });
-
       
       
       let targetCode = ""; 
@@ -300,6 +296,12 @@
           Quagga.start();
         });
       }
+      
+      document.getElementById('configBtn').addEventListener('click', function() {
+        // モードなどの状態を維持したまま再起動
+        restartWithNewResolution();       
+      });
+
 
 
       
