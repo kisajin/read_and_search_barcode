@@ -121,7 +121,7 @@
     </div>
     <div class = "button-container">
 
-        <button id="startScanBtn">作業開始</button>
+        <button id="configBtn">解像度の設定</button>
 
       </div>
     <!--
@@ -136,7 +136,7 @@
       <div id="barcode">スキャン結果: なし</div>
       <div class = "button-container">
 
-        <button id="btnA">ボタンA：Codabarを登録</button>
+        <button id="btnA">ボタンA：Codabarを読み取り</button>
         <button id="btnB">ボタンB：ITFを検索開始</button>
         <div id="status">待機中...</div>
       </div>
@@ -149,6 +149,9 @@
       let elements = document.getElementsByName('resolution');
       let len = elements.length;
       let checkValue = '';
+      
+      // 解像度設定ボタンのクリックイベント
+      document.getElementById('configBtn').addEventListener('click', function() {
 
       for (let i = 0; i < len; i++){
           if (elements.item(i).checked){
@@ -160,8 +163,6 @@
       let targetCode = ""; 
       let currentMode = ""; // "SCAN_TARGET" or "FIND_TARGET"
 
-      // 作業開始ボタンのクリックイベント
-      document.getElementById('startScanBtn').addEventListener('click', function() {
 
         //Quagga.jsの設定情報を変数に入れる(init用)
         const quaggaConfig = {
@@ -211,6 +212,7 @@
       document.getElementById('btnA').addEventListener('click', () => {
         currentMode = "SCAN_TARGET";
         document.getElementById('status').innerText = "モード：Codabarを読み取ってください";
+        Quagga.init();
       });
 
       // ボタンBのクリックイベント
@@ -221,6 +223,7 @@
         }
         currentMode = "FIND_TARGET";
         document.getElementById('status').innerText = "モード：ITFを検索中 (" + targetCode + ")";
+        Quagga.init();
       });
 
       document.getElementById("barcode").innerText = "スキャン結果:  なし" ;
@@ -236,6 +239,7 @@
             currentMode = ""; // 登録完了したらモード解除
             document.getElementById('status').innerText = "登録完了: " + targetCode;
             alert("ターゲットを登録しました: " + targetCode);
+            Quagga.stop();
           }
         } 
         else if (currentMode === "FIND_TARGET") {
