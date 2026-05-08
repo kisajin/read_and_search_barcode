@@ -10,7 +10,7 @@
     <style>
 
 
-      #interactive.viewport { position: relative; width: 100%; height: auto; overflow: hidden; }
+      /* #interactive.viewport { position: relative; width: 100%; height: auto; overflow: hidden; }
       #interactive.viewport > canvas, #interactive.viewport > video { width: 100%; height: auto; vertical-align: top; }
       canvas.drawingBuffer { position: absolute; top: 0; left: 0; }
       #result { padding: 10px; font-weight: bold; color: green; }
@@ -18,13 +18,13 @@
       #interactive {
         width: 100%;
         height: 800px; /* 一時的に固定値を設定して確認 */
-        background-color: #eee; /* 領域が見えるように背景色をつける */
-      }
+        /* background-color: #eee; /* 領域が見えるように背景色をつける */ */
+      /* } 
 
       #interactive video {
         width: 100%;
         height: auto;
-      }
+      } */
 
       body {
         font-family: sans-serif;
@@ -57,7 +57,16 @@
         position: relative;
         text-align:center;
       }
-
+      
+      #scanner-container > video, #scannet-container > canvas {
+        width: 100%;
+      }
+      
+      #scanner-container > canvas {
+        position: absolute;
+        left: 0px; top: 0px;
+      }
+      
       button {
         width: 100%;
         padding: 12px;
