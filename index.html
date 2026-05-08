@@ -124,15 +124,15 @@
         <button id="configBtn">解像度の設定</button>
 
       </div>
-    <!--
+    
     <div>
       <p>探しているITFコード: <strong id="target-display"></strong></p>
       <div id="interactive" class="viewport"></div>
       <div id="result"></div>
     </div>
-  -->
+  <!--
       <div id="scanner-container"></div>
-      
+  -->    
       <div id="barcode">スキャン結果: なし</div>
       <div class = "button-container">
 
@@ -164,42 +164,6 @@
       let currentMode = ""; // "SCAN_TARGET" or "FIND_TARGET"
 
 
-        //Quagga.jsの設定情報を変数に入れる(init用)
-        const quaggaConfig = {
-              inputStream: {
-                name: "Live",
-                type: "LiveStream",
-                target: document.querySelector("#scanner-container"),
-                constraints: {
-                  facingMode: "environment",
-                  width: { ideal: 480 },
-                  height: { ideal: 640 }
-                }
-              },
-              locator: {
-                patchSize: "medium",
-                halfSample: true
-              },
-              numOfWorkers: navigator.hardwareConcurrency || 4,
-              frequency: 10,
-              decoder: {
-                readers: ["codabar_reader", "i2of5_reader"]
-              },
-              locate: true
-        }
-
-        
-        Quagga.init(
-            quaggaConfig,
-            function (err) {
-              if (err) {
-                console.error(err);
-                document.getElementById("result").innerText = "❌ カメラエラー: " + err;
-                return;
-              }
-              Quagga.start();
-            }
-        );
 
       // ボタンAのクリックイベント
       document.getElementById('btnA').addEventListener('click', () => {
@@ -269,6 +233,43 @@
               }
             }
           });
+
+              //Quagga.jsの設定情報を変数に入れる(init用)
+        const quaggaConfig = {
+              inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector("#interactive"),
+                constraints: {
+                  facingMode: "environment",
+                  width: { ideal: 480 },
+                  height: { ideal: 640 }
+                }
+              },
+              locator: {
+                patchSize: "medium",
+                halfSample: true
+              },
+              numOfWorkers: navigator.hardwareConcurrency || 4,
+              frequency: 10,
+              decoder: {
+                readers: ["codabar_reader", "i2of5_reader"]
+              },
+              locate: true
+        }
+
+        
+        Quagga.init(
+            quaggaConfig,
+            function (err) {
+              if (err) {
+                console.error(err);
+                document.getElementById("result").innerText = "❌ カメラエラー: " + err;
+                return;
+              }
+              Quagga.start();
+            }
+        );
 
 
     </script>
