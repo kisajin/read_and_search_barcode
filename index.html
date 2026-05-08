@@ -144,11 +144,7 @@
           halfSample: true
         },
         decoder: {
-          readers: ["codabar_reader", "i2of5_reader"],
-        　codabar_reader: {
-            // スタート/ストップ文字を含める場合はtrue、除外する場合はfalse
-            includeStartStop: false
-          }
+          readers: ["codabar_reader", "i2of5_reader"]
         },
         
         locate: true
@@ -193,7 +189,8 @@
 
           if (currentMode === "SCAN_TARGET") {
             if (format === "codabar") {
-              targetCode = code;
+              // スタート文字、ストップ文字を避ける
+              targetCode = code.substr(1,9);
               currentMode = ""; 
               document.getElementById('status').innerText = "登録完了: " + targetCode;
               alert("ターゲットを登録しました: " + targetCode);
