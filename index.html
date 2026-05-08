@@ -141,6 +141,20 @@
         }
       });
 
+      // 解像度設定を反映させるための書き換え例
+    const constraints = {
+      facingMode: "environment"
+    };
+
+    if (checkValue === "フルHD") {
+        constraints.width = { min: 1280, ideal: 1920 };
+        constraints.height = { min: 720, ideal: 1080 };
+    } else {
+        constraints.width = { min: 640, ideal: 1280 };
+        constraints.height = { min: 480, ideal: 720 };
+    }
+    
+      
       let targetCode = ""; 
       let currentMode = ""; 
 
@@ -150,9 +164,10 @@
           type: "LiveStream",
           target: document.querySelector("#scanner-container"),
           constraints: {
-            facingMode: "environment",
-              width: { ideal: 1280 }, // デフォルトを少し高めに
-              height: { ideal: 720 }
+            constraints
+            //  facingMode: "environment",
+            //  width: { ideal: 1280 }, // デフォルトを少し高めに
+            //  height: { ideal: 720 }
             }
           },
           locator: {
