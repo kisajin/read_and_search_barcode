@@ -193,9 +193,6 @@
 
           if (currentMode === "SCAN_TARGET") {
             if (format === "codabar") {
-              // 箱ラベルがITFコードの場合の処置
-              // スタート文字、ストップ文字を取り除く
-              // targetCode = code.substr(1, 9);
               targetCode = code;
               currentMode = ""; 
               document.getElementById('status').innerText = "登録完了: " + targetCode;
