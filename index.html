@@ -134,46 +134,6 @@
       
       let checkValue = '';
  
-      // 解像度の設定を反映して再起動する関数
-      function restartWithNewResolution() {
-        // 1. 現在のラジオボタンの選択値を取得
-        let selectedRes = 'HD'; // デフォルト
-        const elements = document.getElementsByName('resolution');
-        for (let i = 0; i < elements.length; i++) {
-          if (elements[i].checked) {
-            selectedRes = elements[i].value;
-            break;
-          }
-        }
-      
-        // 2. 解像度設定を構築
-        let width, height;
-        if (selectedRes === "フルHD") {
-          width = { ideal: 1920 };
-          height = { ideal: 1080 };
-        } else {
-          width = { ideal: 1280 };
-          height = { ideal: 720 };
-        }
-      
-        // 3. 一度停止させる
-        Quagga.stop();
-      
-        // 4. 新しい設定で再初期化
-        // quaggaConfigの値を書き換える
-        quaggaConfig.inputStream.constraints.width = width;
-        quaggaConfig.inputStream.constraints.height = height;
-      
-        Quagga.init(quaggaConfig, function (err) {
-          if (err) {
-            console.error("再初期化エラー:", err);
-            return;
-          }
-          console.log("解像度を変更して再起動しました:", selectedRes);
-          Quagga.start();
-        });
-      }
-
 
 
 
@@ -300,5 +260,48 @@
           document.getElementById('result').innerText = "スキャン中...";
         }
       });
+
+      // 解像度の設定を反映して再起動する関数
+      function restartWithNewResolution() {
+        // 1. 現在のラジオボタンの選択値を取得
+        let selectedRes = 'HD'; // デフォルト
+        const elements = document.getElementsByName('resolution');
+        for (let i = 0; i < elements.length; i++) {
+          if (elements[i].checked) {
+            selectedRes = elements[i].value;
+            break;
+          }
+        }
+      
+        // 2. 解像度設定を構築
+        let width, height;
+        if (selectedRes === "フルHD") {
+          width = { ideal: 1920 };
+          height = { ideal: 1080 };
+        } else {
+          width = { ideal: 1280 };
+          height = { ideal: 720 };
+        }
+      
+        // 3. 一度停止させる
+        Quagga.stop();
+      
+        // 4. 新しい設定で再初期化
+        // quaggaConfigの値を書き換える
+        quaggaConfig.inputStream.constraints.width = width;
+        quaggaConfig.inputStream.constraints.height = height;
+      
+        Quagga.init(quaggaConfig, function (err) {
+          if (err) {
+            console.error("再初期化エラー:", err);
+            return;
+          }
+          console.log("解像度を変更して再起動しました:", selectedRes);
+          Quagga.start();
+        });
+      }
+
+
+      
     </script>
   </body>
